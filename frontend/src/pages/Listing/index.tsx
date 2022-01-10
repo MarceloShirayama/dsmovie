@@ -1,11 +1,11 @@
-import { MovieStars } from "component/MovieStars";
+import { MovieScore } from "component/MovieScore";
 import { Pagination } from "component/Pagination";
 
 export function Listing() {
   return (
     <>
       <Pagination />
-      <MovieStars />
+      <MovieScore />
     </>
   );
 }
