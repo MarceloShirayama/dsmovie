@@ -50,7 +50,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+	
+   <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-web</artifactId>
+     <version>5.3.14</version>
+   </dependency>
+ </dependencies>
 
 	<build>
 		<plugins>
