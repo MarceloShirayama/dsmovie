@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/scores")
+@RequestMapping(value = "/scores")
 public class ScoreController {
     @Autowired
     private ScoreService scoreService;

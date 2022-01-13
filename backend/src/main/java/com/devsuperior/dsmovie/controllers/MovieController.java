@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping(value = "/movies")
 public class MovieController {
     @Autowired
     private MovieService service;
@@ -22,7 +22,7 @@ public class MovieController {
         return service.findAll(pageable);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}")
     public MovieDTO findById(@PathVariable Long id) {
         return service.findById(id);
     }
