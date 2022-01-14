@@ -1,8 +1,10 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import { Movie } from "types/movie";
 import { BASE_URL } from "utils/requests";
+import { validateEmail } from "utils/validations";
 import "./styles.css";
 
 type FormProps = {
@@ -10,6 +12,7 @@ type FormProps = {
 };
 
 export function FormCard({ movieId }: FormProps) {
+  const navigate = useNavigate();
   const [movie, setMovie] = useState<Movie>();
 
   useEffect(() => {
@@ -17,6 +20,38 @@ export function FormCard({ movieId }: FormProps) {
       setMovie(data);
     });
   }, [movieId]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const email = e.currentTarget.email.value;
+    const score = e.currentTarget.score.value;
+
+    if (!validateEmail(email)) {
+      swal({
+        title: "Email inválido",
+        text: "Por favor, digite um email válido",
+        icon: "error",
+        dangerMode: true,
+      });
+      return;
+    }
+    const config: AxiosRequestConfig = {
+      baseURL: BASE_URL,
+      method: "PUT",
+      url: "/scores",
+      data: {
+        email: email,
+        movieId: movieId,
+        score: score,
+      },
+    };
+    axios(config)
+      .then(({ data }) => {
+        navigate("/");
+      })
+      // TODO: handle error
+      .catch(() => {});
+  };
 
   return (
     <div className="dsmovie-form-container">
@@ -27,7 +62,7 @@ export function FormCard({ movieId }: FormProps) {
       />
       <div className="dsmovie-card-bottom-container">
         <h3>{movie?.title}</h3>
-        <form className="dsmovie-form">
+        <form className="dsmovie-form" onSubmit={handleSubmit}>
           <div className="form-group dsmovie-form-group">
             <label htmlFor="email">Informe seu email</label>
             <input type="email" className="form-control" id="email" />
